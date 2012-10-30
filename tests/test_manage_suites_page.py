@@ -82,6 +82,6 @@ class TestManageSuitesPage(BaseTest):
 
         manage_test_cases_pg = manage_suites_pg.view_cases(name=suite['name'])
 
-        # check that the first 3 cases are in the suite
+        # check that the first 5 cases are in the suite
         for case in cases:
             Assert.true(manage_test_cases_pg.is_element_present(*case['locator']))
