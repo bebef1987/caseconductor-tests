@@ -27,31 +27,15 @@ class TestManageSuitesPage(BaseTest):
 
         self.delete_product(mozwebqa_logged_in, product=suite['product'])
 
-    def test_that_user_can_create_suite_and_add_some_cases_to_it(self, mozwebqa_logged_in):
+    def test_that_user_can_create_and_add_cases_to_a_suite(self, mozwebqa_logged_in):
         manage_suites_pg = MozTrapManageSuitesPage(mozwebqa_logged_in)
 
         product = self.create_product(mozwebqa_logged_in)
+        # create 3 cases
         cases = [self.create_case(mozwebqa=mozwebqa_logged_in, product=product) for i in range(3)]
 
-        suite = self.create_suite(mozwebqa=mozwebqa_logged_in, product=product, case_name_list=[case['name'] for case in cases])
-
-        manage_suites_pg.filter_suites_by_name(name=suite['name'])
-        Assert.true(manage_suites_pg.is_element_present(*suite['locator']))
-
-        manage_test_cases_pg = manage_suites_pg.view_cases(name=suite['name'])
-
-        for case in cases:
-            Assert.true(manage_test_cases_pg.is_element_present(*case['locator']))
-
-    def test_that_user_can_add_cases_to_a_suite(self, mozwebqa_logged_in):
-        manage_suites_pg = MozTrapManageSuitesPage(mozwebqa_logged_in)
-
-        product = self.create_product(mozwebqa_logged_in)
-        # create 5 cases
-        cases = [self.create_case(mozwebqa=mozwebqa_logged_in, product=product) for i in range(5)]
-
-        # add the first 3 cases in the suite
-        suite = self.create_suite(mozwebqa=mozwebqa_logged_in, product=product, case_name_list=[case['name'] for case in cases[:3]])
+        # add the first case in the suite
+        suite = self.create_suite(mozwebqa=mozwebqa_logged_in, product=product, case_name_list=[case['name'] for case in cases[:1]])
 
         manage_suites_pg.filter_suites_by_name(name=suite['name'])
 
@@ -60,8 +44,8 @@ class TestManageSuitesPage(BaseTest):
 
         manage_test_cases_pg = manage_suites_pg.view_cases(name=suite['name'])
 
-        # check that the first 3 cases are in the suite
-        for case in cases[:3]:
+        # check that the first case is in the suite
+        for case in cases[:1]:
             Assert.true(manage_test_cases_pg.is_element_present(*case['locator']))
 
         # open and filter the suite under test
@@ -72,7 +56,7 @@ class TestManageSuitesPage(BaseTest):
         edit_suite = manage_suites_pg.edit_suite(name=suite['name'])
 
         # add the last 2 cases
-        edit_suite.add_cases(case['name'] for case in cases[3:])
+        edit_suite.add_cases(case['name'] for case in cases[1:])
         edit_suite.save_suite()
 
         manage_suites_pg.filter_suites_by_name(name=suite['name'])
