@@ -54,4 +54,4 @@ class MozTrapManageSuitesPage(MozTrapBasePage):
         _edit_cases_locator = (self._edit_suite_locator[0], self._edit_suite_locator[1] % {'suite_name': name})
         self.selenium.find_element(*_edit_cases_locator).click()
         from pages.edit_suites_page import MozTrapEditSuitePage
-        return MozTrapEditSuitePage(self.testsetup, )
+        return MozTrapEditSuitePage(self.testsetup)
