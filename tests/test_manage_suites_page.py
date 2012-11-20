@@ -42,7 +42,7 @@ class TestManageSuitesPage(BaseTest):
         manage_suites_pg.filter_suites_by_name(name=suite['name'])
 
         # check that the suite was created
-        Assert.true(manage_suites_pg.is_element_present(*suite['locator']))
+        Assert.true(manage_suites_pg.is_element_present(*suite['locator']), 'Suite %s not found ' % suite['name'])
 
         manage_test_cases_pg = manage_suites_pg.view_cases(name=suite['name'])
 
@@ -64,7 +64,7 @@ class TestManageSuitesPage(BaseTest):
         manage_suites_pg.filter_suites_by_name(name=suite['name'])
 
         # check that the suite was created
-        Assert.true(manage_suites_pg.is_element_present(*suite['locator']))
+        Assert.true(manage_suites_pg.is_element_present(*suite['locator']), 'Suite %s not found ' % suite['name'])
 
         manage_test_cases_pg = manage_suites_pg.view_cases(name=suite['name'])
 
