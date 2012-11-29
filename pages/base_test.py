@@ -179,3 +179,12 @@ class BaseTest(object):
         home_pg.go_to_run_test(product_name=product['name'], version_name=product['version']['name'], run_name=run['name'], env_category=profile['category'], env_element=profile['element'])
 
         return case
+
+    class Setup(dict):
+        def __init__(self, **kwargs):
+            # update with any keyword arguments passed
+            self.update(**kwargs)
+
+        # allow getting items as if they were attributes
+        def __getattr__(self, attr):
+            return self[attr]

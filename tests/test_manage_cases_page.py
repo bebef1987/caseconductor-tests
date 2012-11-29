@@ -13,18 +13,25 @@ from pages.manage_cases_page import MozTrapManageCasesPage
 
 class TestManageCasesPage(BaseTest):
 
-    @pytest.mark.moztrap([142, 137])
-    def test_that_user_can_create_and_delete_case(self, mozwebqa_logged_in):
-        manage_cases_pg = MozTrapManageCasesPage(mozwebqa_logged_in)
+    @pytest.fixture(scope='function')
+    def setup(self, request, mozwebqa_logged_in):
 
         case = self.create_case(mozwebqa_logged_in)
 
-        manage_cases_pg.filter_cases_by_name(name=case['name'])
+        def teardown():
+            self.delete_product(mozwebqa_logged_in, product=case['product'])
 
-        Assert.true(manage_cases_pg.is_element_present(*case['locator']))
+        request.addfinalizer(teardown)
+        setup = self.Setup(mozwebqa=mozwebqa_logged_in, case=case)
+        return setup
 
-        manage_cases_pg.delete_case(name=case['name'])
+    @pytest.mark.moztrap([142, 137])
+    def test_that_user_can_create_and_delete_case(self, setup):
+        manage_cases_pg = MozTrapManageCasesPage(setup.mozwebqa)
+        manage_cases_pg.filter_cases_by_name(name=setup.case['name'])
 
-        Assert.false(manage_cases_pg.is_element_present(*case['locator']))
+        Assert.true(manage_cases_pg.is_element_present(*setup.case['locator']))
 
-        self.delete_product(mozwebqa_logged_in, product=case['product'])
+        manage_cases_pg.delete_case(name=setup.case['name'])
+
+        Assert.false(manage_cases_pg.is_element_present(*setup.case['locator']))
