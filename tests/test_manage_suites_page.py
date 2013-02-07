@@ -19,7 +19,7 @@ class TestManageSuitesPage(BaseTest):
 
         suite = self.create_suite(mozwebqa_logged_in)
 
-        manage_suites_pg.filter_suites_by_name(name=suite['name'])
+        manage_suites_pg.filter_form.filter_by(lookup='name', value=suite['name'])
 
         Assert.true(manage_suites_pg.is_element_present(*suite['locator']))
 
@@ -39,7 +39,7 @@ class TestManageSuitesPage(BaseTest):
         # add the first case in the suite
         suite = self.create_suite(mozwebqa=mozwebqa_logged_in, product=product, case_name_list=[case['name'] for case in cases[:1]])
 
-        manage_suites_pg.filter_suites_by_name(name=suite['name'])
+        manage_suites_pg.filter_form.filter_by(lookup='name', value=suite['name'])
 
         # check that the suite was created
         Assert.true(manage_suites_pg.is_element_present(*suite['locator']), 'Suite %s not found ' % suite['name'])
@@ -53,7 +53,7 @@ class TestManageSuitesPage(BaseTest):
         # open and filter the suite under test
         manage_suites_pg = MozTrapManageSuitesPage(mozwebqa_logged_in)
         manage_suites_pg.go_to_manage_suites_page()
-        manage_suites_pg.filter_suites_by_name(name=suite['name'])
+        manage_suites_pg.filter_form.filter_by(lookup='name', value=suite['name'])
 
         edit_suite = manage_suites_pg.edit_suite(name=suite['name'])
 
@@ -61,7 +61,7 @@ class TestManageSuitesPage(BaseTest):
         edit_suite.add_cases(case['name'] for case in cases[1:])
         edit_suite.save_suite()
 
-        manage_suites_pg.filter_suites_by_name(name=suite['name'])
+        manage_suites_pg.filter_form.filter_by(lookup='name', value=suite['name'])
 
         # check that the suite was created
         Assert.true(manage_suites_pg.is_element_present(*suite['locator']), 'Suite %s not found ' % suite['name'])

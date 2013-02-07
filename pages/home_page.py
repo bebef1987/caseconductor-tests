@@ -12,7 +12,7 @@ from pages.base_page import MozTrapBasePage
 
 class MozTrapHomePage(MozTrapBasePage):
 
-    _page_title = 'MozTrap'
+    _page_title = 'Run Tests'
 
     _select_locator = (By.CSS_SELECTOR, '.runsdrill .runsfinder .carousel .colcontent .title[title="%(item_name)s"]')
     _env_select_locator = (By.CSS_SELECTOR, '#runtests-environment-form .formfield[data-title="%(env_category)s"] select')
@@ -20,7 +20,7 @@ class MozTrapHomePage(MozTrapBasePage):
     _os_locator = (By.CSS_SELECTOR, '#runtests-environment-form .operating-system-field select')
     _submit_locator = (By.CSS_SELECTOR, '#runtests-environment-form .form-actions button[type="submit"]')
 
-    def go_to_homepage_page(self):
+    def go_to_home_page(self):
         self.selenium.get(self.base_url + '/')
         self.is_the_current_page
 

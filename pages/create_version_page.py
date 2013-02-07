@@ -14,7 +14,7 @@ from pages.base_page import MozTrapBasePage
 
 class MozTrapCreateVersionPage(MozTrapBasePage):
 
-    _page_title = 'MozTrap'
+    _page_title = 'Create Version'
 
     _version_name_locator = (By.ID, 'id_version')
     _product_select_locator = (By.ID, 'id_product')
@@ -41,3 +41,8 @@ class MozTrapCreateVersionPage(MozTrapBasePage):
         self.selenium.find_element(*self._submit_locator).click()
 
         return version
+
+    @property
+    def product_name_value(self):
+        product_select = self.find_element(*self._product_select_locator)
+        return product_select.find_element(By.CSS_SELECTOR, 'option:checked').text
